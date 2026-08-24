@@ -19,9 +19,16 @@ entry:
   require_cross_up: true
   direction: long
 
-# Reject signals on thin or dead tape.
+# Reject signals on dead tape.
+#
+# volume_mult was 1.15 and it was a design error: it demanded ABOVE-average
+# volume on the entry bar, but in a mean-reversion setup volume spikes on the
+# selloff and dries up on the bounce we are buying. Backtested over 6 months
+# of BTCUSDT it took the strategy from 131 qualifying trades to exactly ZERO.
+# Disabled at 0.0 rather than deleted, so the reflection layer can reintroduce
+# it deliberately if a future entry style actually wants volume expansion.
 confirmation:
-  volume_mult: 1.15   # bar volume must exceed 1.15x the 20-bar average
+  volume_mult: 0.0
   min_atr_pct: 0.08   # skip when ATR is under 0.08% of price - nothing moving
 
 # Stops scale with volatility instead of a fixed percentage, so the same

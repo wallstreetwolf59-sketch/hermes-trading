@@ -93,5 +93,39 @@ uv run python -m hermes_trading.reflect --fallback --force
   given tick.
 - GitHub cron is best-effort. Ticks get delayed under load; five minutes is the
   floor, not a guarantee.
-- **This strategy has not been backtested.** It is a reasonable structure, not a
-  demonstrated edge.
+## Backtest results — read this before trusting anything
+
+v01 was backtested on Binance BTCUSDT perpetuals, 5-minute bars, 2026-01-29 to
+2026-07-31, intraday, 0.03% slippage. **It does not have an edge.**
+
+| Variant | Trades | Win rate | Total P&L ($1k/trade) |
+|---|---:|---:|---:|
+| RSI cross-up 32, no filters | 358 | 37.4% | −$459 |
+| ...restricted to EMA50>EMA200 uptrend | 131 | 39.7% | −$28 |
+| Momentum: Supertrend flip + 1h trend up | 68 | 50.0% | −$84 |
+
+The trend filter helps materially (−$1.90 → −$0.21 average per trade) but does
+not turn a losing signal into a winning one.
+
+**The win rate / reward-risk frontier.** Reconstructing outcomes from each
+trade's maximum favourable and adverse excursion, holding the stop at 1%:
+
+| Target | R:R | Win rate |
+|---:|---:|---:|
+| 0.25% | 0.25 | 49.6% |
+| 1.00% | 1.00 | 32.8% |
+| 2.00% | 2.00 | 17.6% |
+
+Win rate and reward-risk trade off mechanically. For a 2R target against a 1R
+stop, a random walk wins about 33% of the time — every signal tested came in at
+or below that. A 60% win rate at 2R would be +0.8R expectancy per trade, which
+is fund-grade, and nothing here is remotely close.
+
+**A bug this caught.** The original `volume_mult: 1.15` demanded above-average
+volume on the entry bar, but in mean reversion volume spikes on the selloff and
+dries up on the bounce being bought. It took the strategy from 131 qualifying
+trades to zero — the agent would have run indefinitely without ever trading. It
+is disabled at `0.0`.
+
+Treat this repo as a working harness for a self-improving agent, **not** as a
+profitable trading system.
