@@ -145,11 +145,22 @@ trades almost never reached their targets. With `intraday=False` the same
 strategy resolved cleanly - 107 stops, 50 targets, zero EOD exits. Perpetuals
 have no session; a daily flat is an equities habit that costs money here.
 
-**Why no further tuning was done.** The breakout strategy scored 35.5% win rate
-in the first half of the sample and 25.0% in the second - unstable, and losing
-in both. Searching more symbols and parameters would eventually surface a
-combination that looks good in-sample, but that split-sample instability is
-exactly the signature that says such a result would be noise.
+**Fifth attempt - the deployed strategy.** Trend-continuation pullback on 1h
+bars, no daily square-off, ATR stop sized to exactly 1.5R so the win rate is
+measured rather than reconstructed: 64 trades, **34.4% win rate**, -$111.55,
+**-0.141R per trade**. A random walk at 1.5R wins 40%.
+
+**Why no further tuning was done.** Split the pullback sample in half:
+
+| Half | Trades | Win rate | P&L |
+|---|---:|---:|---:|
+| Feb-Apr | 32 | 46.9% | +$9.75 |
+| May-Jul | 32 | 21.9% | -$121.30 |
+
+Tested on the first three months alone this looks like a 46.9% win rate,
+profitable strategy. It then lost money for three months straight. Searching
+more symbols and parameters would eventually surface something that looks good
+in-sample; this is what that result would be worth.
 
 Treat this repo as a working harness for a self-improving agent, **not** as a
 profitable trading system.

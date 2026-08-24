@@ -169,7 +169,26 @@ def evaluate_signal(candles: list[list], strat: dict) -> dict:
         return {**diag, "fire": False, "reason": f"tape too flat (atr {atr_pct:.3f}%)"}
 
     # --- entry trigger ---------------------------------------------------
-    if direction == "long":
+    style = entry_cfg.get("indicator", "rsi_reversal")
+
+    if style == "ema_pullback":
+        # Dip to the pullback EMA on the prior bar, close back above it now.
+        pb_len = int(entry_cfg.get("pullback_ema", 20))
+        pb = ema(closes, pb_len)
+        if pb is None:
+            return {**diag, "fire": False, "reason": "not enough history for pullback ema"}
+        diag["pullback_ema"] = round(pb, 2)
+        prev_close = closes[-2]
+        prev_low = candles[-2][3]
+        if direction == "long":
+            triggered = prev_low <= pb and prev_close <= pb and last > pb
+            label = f"pullback to ema{pb_len} then close above"
+        else:
+            prev_high = candles[-2][2]
+            triggered = prev_high >= pb and prev_close >= pb and last < pb
+            label = f"pullback to ema{pb_len} then close below"
+
+    elif direction == "long":
         if entry_cfg.get("require_cross_up", True):
             triggered = rsi_prev <= threshold < rsi_now
             label = f"rsi cross up through {threshold}"
