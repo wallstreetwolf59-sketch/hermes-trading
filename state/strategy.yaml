@@ -1,0 +1,35 @@
+version: "01"
+timeframe: "5m"
+lookback_candles: 300
+
+# Only trade in the direction of the higher-timeframe trend. This is the
+# single biggest fix over naive RSI: it stops the agent buying every dip
+# in a downtrend.
+trend_filter:
+  enabled: true
+  fast_ema: 50
+  slow_ema: 200
+
+# Entry fires on RSI crossing back UP through the oversold level, not merely
+# being below it - waiting for the turn rather than catching the fall.
+entry:
+  indicator: rsi_reversal
+  rsi_period: 14
+  threshold: 32
+  require_cross_up: true
+  direction: long
+
+# Reject signals on thin or dead tape.
+confirmation:
+  volume_mult: 1.15   # bar volume must exceed 1.15x the 20-bar average
+  min_atr_pct: 0.08   # skip when ATR is under 0.08% of price - nothing moving
+
+# Stops scale with volatility instead of a fixed percentage, so the same
+# strategy behaves sanely in both calm and violent regimes.
+risk:
+  atr_period: 14
+  stop_atr_mult: 1.5
+  reward_risk_ratio: 2.0   # target = 2x the stop distance
+  position_size_r: 0.5
+  max_hold_minutes: 240    # intraday: force flat after 4 hours
+  breakeven_at_r: 1.0      # pull stop to entry once +1R in profit

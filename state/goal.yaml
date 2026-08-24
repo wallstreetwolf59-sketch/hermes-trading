@@ -1,0 +1,9 @@
+# Locked in by the operator. The agent scores every trade against this file.
+asset:              "BTC/USDT"
+target_return:      0.07    # success: +7% ...
+target_window_days: 25      # ... over 25 days
+max_drawdown:       0.10    # failure: bail above 10% drawdown
+min_sharpe:         1.2     # quality bar
+failure_below:      -0.04   # score floor - steeply negative below this
+reflection_every:   5       # reflect every N closed trades
+one_variable_only:  true    # scientific-method guardrail

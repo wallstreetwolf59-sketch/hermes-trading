@@ -1,0 +1,63 @@
+name: tick
+
+on:
+  schedule:
+    # Every 5 minutes - the fastest schedule GitHub allows. Runs are queued
+    # best-effort and can be delayed under load; the agent is not HFT.
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# Never let two ticks race each other onto the same state files.
+concurrency:
+  group: hermes-tick
+  cancel-in-progress: false
+
+jobs:
+  tick:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Install dependencies
+        run: uv sync --frozen
+
+      - name: Evaluate one tick
+        env:
+          HERMES_TRADING_MODE: paper
+        run: uv run python -m hermes_trading.run
+
+      - name: Reflect if the cadence is due
+        env:
+          HERMES_TRADING_MODE: paper
+        run: uv run python -m hermes_trading.reflect --fallback
+
+      - name: Commit state back to the repo
+        run: |
+          git config user.name "hermes-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add state/
+          if git diff --staged --quiet; then
+            echo "no state change this tick"
+            exit 0
+          fi
+          git commit -m "tick $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          # Another tick may have landed while this one ran.
+          for attempt in 1 2 3; do
+            if git pull --rebase --autostash origin "${GITHUB_REF_NAME}" && git push; then
+              echo "state pushed on attempt ${attempt}"
+              exit 0
+            fi
+            sleep 5
+          done
+          echo "could not push state after 3 attempts" >&2
+          exit 1

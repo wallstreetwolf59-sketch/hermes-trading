@@ -1,0 +1,22 @@
+{
+  "last_tick_at": 1787538393.1330204,
+  "consecutive_failures": 0,
+  "asset": "BTC/USDT",
+  "price_source": "coinbase",
+  "last_price": 77496.33,
+  "strategy_version": "01",
+  "signal": {
+    "rsi": 55.32,
+    "rsi_prev": 53.64,
+    "price": 77496.33,
+    "ema_fast": 77415.15,
+    "ema_slow": 77251.58,
+    "atr": 166.47,
+    "atr_pct": 0.2148,
+    "fire": false,
+    "reason": "no trigger (rsi cross up through 32.0)"
+  },
+  "open_positions": 0,
+  "closed_trades": 0,
+  "events": []
+}
