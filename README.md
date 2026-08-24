@@ -84,9 +84,13 @@ uv run python -m hermes_trading.reflect --fallback --force
 
 ## Caveats worth knowing
 
-- Kraken does not serve BTC/USDT to all regions, so the price adapter falls
-  through to Coinbase, which quotes **BTC/USD**. Close enough for paper trading,
-  but it is a substitution, not the same instrument.
+- The price adapter tries Kraken, then Coinbase, then Bitstamp. On GitHub's US
+  runners Kraken serves BTC/USDT directly, which is what production uses. From
+  some regions Kraken refuses the pair and the adapter falls through to
+  Coinbase, which quotes **BTC/USD** — close enough for paper trading, but not
+  literally the same instrument. Check `price_source` in
+  [`state/heartbeat.json`](state/heartbeat.json) to see which one served a
+  given tick.
 - GitHub cron is best-effort. Ticks get delayed under load; five minutes is the
   floor, not a guarantee.
 - **This strategy has not been backtested.** It is a reasonable structure, not a
