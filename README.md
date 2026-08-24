@@ -127,5 +127,29 @@ dries up on the bounce being bought. It took the strategy from 131 qualifying
 trades to zero — the agent would have run indefinitely without ever trading. It
 is disabled at `0.0`.
 
+**Four families tested, none with an edge.** Same window, same slippage:
+
+| Family | Trades | Win rate | Verdict |
+|---|---:|---:|---|
+| RSI mean reversion | 358 | 37.4% | negative |
+| RSI + EMA trend filter | 131 | 39.7% | negative |
+| Supertrend momentum + 1h filter | 68 | — | negative |
+| Donchian breakout @ 1.5R, no EOD | 63 | 30.2% | worse than random |
+
+For a 1.5R target a random walk wins ~40%; the breakout signal wins 30%, so
+breakouts on BTC 15m fail *more* often than chance.
+
+**Intraday is the wrong frame for crypto.** With `intraday=True`, forced 23:58
+UTC square-offs dominated every exit mix (67 of 81, 178 of 223, 110 of 358) and
+trades almost never reached their targets. With `intraday=False` the same
+strategy resolved cleanly - 107 stops, 50 targets, zero EOD exits. Perpetuals
+have no session; a daily flat is an equities habit that costs money here.
+
+**Why no further tuning was done.** The breakout strategy scored 35.5% win rate
+in the first half of the sample and 25.0% in the second - unstable, and losing
+in both. Searching more symbols and parameters would eventually surface a
+combination that looks good in-sample, but that split-sample instability is
+exactly the signature that says such a result would be noise.
+
 Treat this repo as a working harness for a self-improving agent, **not** as a
 profitable trading system.
