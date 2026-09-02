@@ -1,4 +1,4 @@
-version: '02'
+version: '01'
 timeframe: 1h
 lookback_candles: 400
 trend_filter:
@@ -17,7 +17,7 @@ confirmation:
   min_atr_pct: 0.08
 risk:
   atr_period: 14
-  stop_atr_mult: 1.75
+  stop_atr_mult: 1.5
   reward_risk_ratio: 1.5
   position_size_r: 0.5
   max_hold_minutes: 4320
