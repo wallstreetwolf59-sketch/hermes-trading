@@ -7,13 +7,13 @@
       "opened_at": 1788356745.2764688,
       "opened_ts_ms": 1788356745276,
       "entry": 77386.6,
-      "stop_price": 76594.10967228703,
+      "stop_price": 77386.6,
       "take_price": 78575.33549156948,
       "risk_per_unit": 792.4903277129794,
       "size_r": 0.5,
       "rsi_at_entry": 49.96,
       "atr_at_entry": 452.85,
-      "breakeven_moved": false,
+      "breakeven_moved": true,
       "strategy_version": "02"
     }
   ]
