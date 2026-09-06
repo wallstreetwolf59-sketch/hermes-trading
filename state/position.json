@@ -1,3 +1,20 @@
 {
-  "positions": []
+  "positions": [
+    {
+      "id": "535b50a01564",
+      "asset": "BTC/USDT",
+      "side": "long",
+      "opened_at": 1788718308.5166054,
+      "opened_ts_ms": 1788718308516,
+      "entry": 79832.1,
+      "stop_price": 79473.59294923733,
+      "take_price": 80369.86057614403,
+      "risk_per_unit": 358.50705076267906,
+      "size_r": 0.5,
+      "rsi_at_entry": 50.6,
+      "atr_at_entry": 204.86,
+      "breakeven_moved": false,
+      "strategy_version": "02"
+    }
+  ]
 }
