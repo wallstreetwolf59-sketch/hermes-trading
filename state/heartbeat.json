@@ -1,16 +1,16 @@
 {
-  "last_tick_at": 1789351517.146132,
+  "last_tick_at": 1789352553.2175875,
   "consecutive_failures": 0,
   "asset": "BTC/USDT",
   "price_source": "kraken",
-  "last_price": 77045.5,
+  "last_price": 77333.6,
   "strategy_version": "03",
   "signal": {
-    "rsi": 48.29,
+    "rsi": 55.78,
     "rsi_prev": 50.92,
-    "price": 77045.5,
-    "ema_fast": 77195.05,
-    "ema_slow": 77885.59,
+    "price": 77333.6,
+    "ema_fast": 77206.35,
+    "ema_slow": 77888.46,
     "fire": false,
     "reason": "trend filter: downtrend, no longs"
   },
