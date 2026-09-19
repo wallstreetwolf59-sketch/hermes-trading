@@ -1,23 +1,25 @@
 {
-  "last_tick_at": 1789857407.4595344,
+  "last_tick_at": 1789857962.2503524,
   "consecutive_failures": 0,
   "asset": "BTC/USDT",
   "price_source": "kraken",
-  "last_price": 81094.6,
+  "last_price": 81220.2,
   "strategy_version": "03",
   "signal": {
-    "rsi": 53.66,
+    "rsi": 56.37,
     "rsi_prev": 53.65,
-    "price": 81094.6,
-    "ema_fast": 80145.64,
-    "ema_slow": 78446.08,
-    "atr": 293.29,
-    "atr_pct": 0.3617,
-    "pullback_ema": 81167.25,
-    "fire": false,
-    "reason": "no trigger (pullback to ema20 then close above)"
+    "price": 81220.2,
+    "ema_fast": 80150.57,
+    "ema_slow": 78447.33,
+    "atr": 303.75,
+    "atr_pct": 0.374,
+    "pullback_ema": 81179.21,
+    "fire": true,
+    "reason": "pullback to ema20 then close above"
   },
-  "open_positions": 0,
+  "open_positions": 1,
   "closed_trades": 10,
-  "events": []
+  "events": [
+    "OPEN long @ 81220.20 stop 80612.70 target 82131.45 (pullback to ema20 then close above)"
+  ]
 }
