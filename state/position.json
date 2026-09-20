@@ -1,20 +1,3 @@
 {
-  "positions": [
-    {
-      "id": "cb38a84ca134",
-      "asset": "BTC/USDT",
-      "side": "long",
-      "opened_at": 1789916392.8431926,
-      "opened_ts_ms": 1789916392843,
-      "entry": 80677.6,
-      "stop_price": 80677.6,
-      "take_price": 81518.69163306143,
-      "risk_per_unit": 560.7277553742864,
-      "size_r": 0.5,
-      "rsi_at_entry": 50.22,
-      "atr_at_entry": 280.36,
-      "breakeven_moved": true,
-      "strategy_version": "03"
-    }
-  ]
+  "positions": []
 }
